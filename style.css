@@ -45,6 +45,45 @@ body {
 :nth-child(7) {
   border-bottom: none;
 }
+
+/* .x-icon::before,
+.x-icon::after {
+  content: " ";
+  position: absolute;
+  display: flex;
+  top: 40%;
+  left: 20%;
+  width: 30px;
+  height: 200px;
+  background-color: rgb(95, 94, 94);
+}
+.x-icon::before {
+  transform: rotate(45deg);
+}
+.x-icon::after {
+  transform: rotate(-45deg);
+}
+.circle-icon::before,
+.circle-icon::after {
+  content: " ";
+  position: absolute;
+  top: 40%;
+  right: 20%;
+  width: 30px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: rgb(95, 94, 94);
+}
+.circle-icon::before {
+  width: 120px;
+  height: 120px;
+  background-color: black;
+}
+.circle-icon::after {
+  width: 90px;
+  height: 90px;
+  background-color: white;
+} */
 .winner-screen {
   position: fixed;
   top: 0;
@@ -63,6 +102,13 @@ body {
   width: 150px;
   height: 60px;
   padding: 0.75em 0.95em;
+  background-color: rgb(228, 228, 228);
+  border: black solid 1px;
+}
+.restart-button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  border: black solid 1px;
 }
 .cell.x::before,
 .cell.x::after {
@@ -98,4 +144,18 @@ body {
 }
 .winner-screen.show {
   display: flex;
+}
+
+.ai label {
+  font-size: 1.5em;
+  position: fixed;
+  right: 40px;
+  top: 10px;
+}
+.ai input {
+  position: fixed;
+  top: 5px;
+  right: 0;
+  height: 30px;
+  width: 30px;
 }

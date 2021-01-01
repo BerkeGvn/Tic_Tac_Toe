@@ -3,8 +3,10 @@ function game() {
   const restartBtn = document.querySelector(".restart-button");
   const winnerScreen = document.querySelector(".winner-screen");
   const cells = document.querySelectorAll(".cell");
+  const aiCheck = document.querySelector(".checkbox");
   const X_CLASS = "x";
   const CIRCLE_CLASS = "circle";
+  let againstComp;
   let Gameboard = {
     gameBoard: ["", "", "", "", "", "", "", "", ""],
   };
@@ -44,12 +46,17 @@ function game() {
     let cell = e.target;
     let playerTurn = circleTurn ? CIRCLE_CLASS : X_CLASS;
     markCell(cell, playerTurn);
-    if (draw()) {
+    if (againstComp && playerTurn === X_CLASS) {
+      aiPlay();
+      console.log(Gameboard.gameBoard);
+    }
+    if (checkWinner(playerTurn)) {
+      winnerScreen.classList.add("show");
+
+      winnerMessage.textContent = `${circleTurn ? "X's" : "O's"} Wins!`;
+    } else if (draw()) {
       winnerScreen.classList.add("show");
       winnerMessage.textContent = "It is a Draw!";
-    } else if (checkWinner(playerTurn)) {
-      winnerScreen.classList.add("show");
-      winnerMessage.textContent = `${circleTurn ? "O's" : "X's"} Wins!`;
     }
     switchTurn();
   }
@@ -82,5 +89,40 @@ function game() {
   }
 
   restartBtn.addEventListener("click", startGame);
+  aiCheck.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      againstComp = true;
+    } else {
+      againstComp = false;
+    }
+  });
+
+  function aiPlay() {
+    let random = randomNumber(0, 9);
+    let cell = cells[random];
+    if (draw()) {
+      winnerScreen.classList.add("show");
+      winnerMessage.textContent = "It is a Draw!";
+    } else if (
+      cell.classList.contains(CIRCLE_CLASS) ||
+      cell.classList.contains(X_CLASS)
+    ) {
+      aiPlay();
+    } else {
+      cell.classList.add(CIRCLE_CLASS);
+      Gameboard.gameBoard.splice(cell.id, 1, CIRCLE_CLASS);
+      cell.removeEventListener("click", playGame);
+      if (checkWinner(CIRCLE_CLASS)) {
+        winnerScreen.classList.add("show");
+        winnerMessage.textContent = `${circleTurn ? "X's" : "O's"} Wins!`;
+      }
+
+      switchTurn();
+    }
+  }
+
+  function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 }
 game();
