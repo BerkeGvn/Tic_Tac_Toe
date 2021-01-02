@@ -1,4 +1,4 @@
-function game() {
+const game = (() => {
   const winnerMessage = document.querySelector(".winner-message");
   const restartBtn = document.querySelector(".restart-button");
   const winnerScreen = document.querySelector(".winner-screen");
@@ -23,7 +23,7 @@ function game() {
   ];
   let circleTurn;
   let i = 0;
-
+  aiCheck.checked = false;
   startGame();
   // Selecting every cell and rendering the game
   function startGame() {
@@ -48,12 +48,14 @@ function game() {
     markCell(cell, playerTurn);
     if (againstComp && playerTurn === X_CLASS) {
       aiPlay();
-      console.log(Gameboard.gameBoard);
     }
     if (checkWinner(playerTurn)) {
       winnerScreen.classList.add("show");
-
-      winnerMessage.textContent = `${circleTurn ? "X's" : "O's"} Wins!`;
+      if (againstComp) {
+        winnerMessage.textContent = `${circleTurn ? "X's" : "O's"} Wins!`;
+      } else {
+        winnerMessage.textContent = `${circleTurn ? "O's" : "X's"} Wins!`;
+      }
     } else if (draw()) {
       winnerScreen.classList.add("show");
       winnerMessage.textContent = "It is a Draw!";
@@ -116,7 +118,6 @@ function game() {
         winnerScreen.classList.add("show");
         winnerMessage.textContent = `${circleTurn ? "X's" : "O's"} Wins!`;
       }
-
       switchTurn();
     }
   }
@@ -124,5 +125,4 @@ function game() {
   function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
-}
-game();
+})();
